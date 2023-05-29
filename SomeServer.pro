@@ -1,15 +1,12 @@
 TEMPLATE = subdirs
 
 SUBDIRS += \
-    core\
+    core \
     someserver \
-    netcode \
-    area
+    netcode
 
-automod.subdir = project/automod
 core.subdir = project/core
+core.depends = netcode
 someserver.subdir = project/someserver
+someserver.depends = core netcode
 netcode.subdir = project/netcode
-area.subdir = project/area
-
-someserver.depends = core netcode area
