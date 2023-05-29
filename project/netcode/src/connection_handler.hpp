@@ -24,8 +24,6 @@ public:
   ConnectionHandler(QObject *parent, int port, int ws_port);
   ~ConnectionHandler();
 
-  void setPacketFactory(PacketFactory *f_factory);
-
 signals:
   void newClientConnected(NetworkSocket *f_socket);
 

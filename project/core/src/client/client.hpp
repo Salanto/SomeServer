@@ -24,6 +24,8 @@ public:
   Client(QObject *parent, AkashiNetwork::NetworkSocket *f_socket, int client_id = -1);
   ~Client();
 
+  int getId();
+
 signals:
   void clientDisconnected(int f_client_id);
 

@@ -34,20 +34,23 @@ HEADERS += \
     src/client/client_manager.hpp \
     src/client/client_manager_p.hpp \
     src/client/client_p.hpp \
+    src/client/client_packet_handler.hpp \
     src/configuration/config_manager.hpp \
     src/configuration/config_manager_p.hpp \
+    src/packets/custom_packet.hpp \
     src/packets/decryptor_packet.hpp \
     src/packets/hi_packet.hpp \
     src/packets/id_packet.hpp \
     src/packets/le_packet.h \
-    src/server.hpp \
-    src/server_p.hpp
+    src/server.hpp
 
 SOURCES += \
     src/advertiser/masterserver_client.cpp \
     src/area/area.cpp \
     src/area/area_manager.cpp \
     src/area/hub_manager.cpp \
+    src/client/client_packet_handler.cpp \
+    src/packets/custom_packet.cpp \
     src/packets/decryptor_packet.cpp \
     src/packets/hi_packet.cpp \
     src/packets/id_packet.cpp \

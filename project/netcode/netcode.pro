@@ -26,6 +26,7 @@ HEADERS += \
   src/interfaces/network_socket_i.hpp \
   src/packet.hpp \
   src/packet_factory.hpp \
+  src/packet_handler.hpp \
   src/packet_info.hpp
 
 SOURCES += \
@@ -33,4 +34,5 @@ SOURCES += \
   src/aowebsocket.cpp \
   src/connection_handler.cpp \
   src/packet.cpp \
-  src/packet_factory.cpp
+  src/packet_factory.cpp \
+  src/packet_handler.cpp

@@ -4,6 +4,11 @@
 #include <QObject>
 #include <memory>
 
+namespace AkashiArea
+{
+class HubManager;
+} // namespace AkashiArea
+
 namespace AkashiNetwork
 {
 class NetworkSocket;
@@ -21,7 +26,7 @@ class ClientManager : public QObject
   Q_OBJECT
 
 public:
-  ClientManager(QObject *parent);
+  ClientManager(AkashiArea::HubManager *hub_manager, QObject *parent);
   ~ClientManager();
 
 public slots:

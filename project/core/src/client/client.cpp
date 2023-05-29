@@ -21,3 +21,8 @@ AkashiCore::Client::~Client()
            << "Destroying Client with id" << d_ptr->id;
   d_ptr->socket->deleteLater();
 }
+
+int AkashiCore::Client::getId()
+{
+  return d_ptr.get()->id;
+}

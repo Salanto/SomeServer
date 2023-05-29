@@ -4,6 +4,8 @@
 #include <QObject>
 #include <memory>
 
+class QJsonDocument;
+
 namespace AkashiCore
 {
 namespace Private
@@ -34,6 +36,7 @@ public:
 
   // Generic
   QString readTextFile(QString f_file_name);
+  QJsonDocument readJsonFile(QString f_file_name);
 
   // Config
   int serverPort();

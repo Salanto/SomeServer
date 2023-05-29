@@ -1,8 +1,9 @@
 #ifndef AREA_MANAGER_HPP
 #define AREA_MANAGER_HPP
 
+#include "area.hpp"
+
 #include <QObject>
-#include <memory>
 
 namespace AkashiArea
 {
@@ -22,6 +23,17 @@ public:
 private:
   std::unique_ptr<Private::AreaManagerPrivate> d_ptr;
 };
+
+class AreaGroup
+{
+public:
+  QString getName();
+
+  QList<Area *> getAreaList();
+
+  void load(QString file);
+};
+
 } // namespace AkashiArea
 
 #endif // AREA_MANAGER_HPP
