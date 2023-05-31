@@ -14,6 +14,14 @@ namespace AkashiCore {
         handler(new AkashiNetwork::PacketHandler(socket, this))
     {
         connect(handler, &AkashiNetwork::PacketHandler::packetReceived, this, &ClientPacketHandler::handlePacket);
+
+        m_handler_map["HI"] = &ClientPacketHandler::handle_HI;
+    }
+
+    void ClientPacketHandler::registerMappers()
+    {
+        m_handler_map["HI"] = &ClientPacketHandler::handle_HI;
+        m_handler_map["ID"] = &ClientPacketHandler::handle_ID;
     }
 
     void ClientPacketHandler::handshake()
@@ -22,9 +30,17 @@ namespace AkashiCore {
         handler->sendPacket(&packet);
     }
 
+    void ClientPacketHandler::handle_HI(AkashiNetwork::AOPacket *f_packet)
+    {
+        qDebug() << "Received HI packet";
+        AkashiNetwork::PacketCustom packet("ID", {"Akashi", "0.0.1"});
+        handler->sendPacket(&packet);
+    }
+
     void ClientPacketHandler::handlePacket(AkashiNetwork::AOPacket *packet)
     {
         qInfo() << "Client" << client->getId() << "sent packet:" << packet->getContent();
+        (this->*m_handler_map[packet->getPacketInfo().header])(packet);
         delete packet;
     }
 } // namespace AkashiCore

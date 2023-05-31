@@ -16,6 +16,7 @@ namespace AkashiNetwork {
 
 namespace AkashiCore {
     class Client;
+    class ClientManager;
 
     class ClientPacketHandler : public QObject
     {
@@ -25,6 +26,8 @@ namespace AkashiCore {
         ClientPacketHandler(Client *client, AkashiNetwork::NetworkSocket *socket, AkashiArea::HubManager *hub_manager, QObject *parent = nullptr);
 
         void handshake();
+        void handle_HI(AkashiNetwork::AOPacket *f_packet);
+        void handle_ID(AkashiNetwork::AOPacket *f_packet);
 
       signals:
 
@@ -33,9 +36,14 @@ namespace AkashiCore {
         AkashiNetwork::NetworkSocket *socket;
         AkashiArea::HubManager *hub_manager;
         AkashiNetwork::PacketHandler *handler;
+        AkashiCore::ClientManager *client_manager;
+
+        static void registerMappers();
+        inline static std::map<QString, void (ClientPacketHandler::*)(AkashiNetwork::AOPacket *)> m_handler_map;
 
       private slots:
-        void handlePacket(AkashiNetwork::AOPacket *packet);
+        void
+        handlePacket(AkashiNetwork::AOPacket *packet);
     };
 } // namespace AkashiCore
 #endif // CLIENT_PACKET_HANDLER_HPP
