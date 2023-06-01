@@ -1,6 +1,7 @@
 #include "configuration/config_manager.hpp"
 #include "configuration/config_manager_p.hpp"
 
+#include <QCoreApplication>
 #include <QDebug>
 #include <QDir>
 #include <QFile>
@@ -37,6 +38,16 @@ bool ConfigManager::checkConfiguration()
         }
     }
     return config_folder_complete;
+}
+
+QStringList ConfigManager::softwareInfo()
+{
+    return {QCoreApplication::applicationName(), QCoreApplication::applicationVersion()};
+}
+
+QString ConfigManager::assetURL()
+{
+    return d_ptr->config->value("webao/asset_url", "").toString();
 }
 
 QString ConfigManager::readTextFile(QString f_file_name)

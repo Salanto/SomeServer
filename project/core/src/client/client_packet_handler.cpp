@@ -2,6 +2,7 @@
 
 #include "area/hub_manager.hpp"
 #include "client/client.hpp"
+#include "configuration/config_manager.hpp"
 #include "packet_handler.hpp"
 #include "packets/custom_packet.hpp"
 
@@ -33,8 +34,15 @@ namespace AkashiCore {
     void ClientPacketHandler::handle_HI(AkashiNetwork::AOPacket *f_packet)
     {
         qDebug() << "Received HI packet";
-        AkashiNetwork::PacketCustom packet("ID", {"Akashi", "0.0.1"});
-        handler->sendPacket(&packet);
+        AkashiNetwork::PacketCustom packet_id("ID", ConfigManager::getInstance().softwareInfo());
+        AkashiNetwork::PacketCustom packet_ass("ASS", {ConfigManager::getInstance().assetURL()});
+        handler->sendPacket(&packet_id);
+        handler->sendPacket(&packet_ass);
+    }
+
+    void ClientPacketHandler::handle_ID(AkashiNetwork::AOPacket *f_packet)
+    {
+        qDebug() << f_packet->getContent();
     }
 
     void ClientPacketHandler::handlePacket(AkashiNetwork::AOPacket *packet)

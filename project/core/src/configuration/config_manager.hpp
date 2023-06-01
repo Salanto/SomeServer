@@ -32,6 +32,10 @@ namespace AkashiCore {
 
         static bool checkConfiguration();
 
+        // Server-Meta-Data
+        QStringList softwareInfo();
+        QString assetURL();
+
         // Generic
         QString readTextFile(QString f_file_name);
         QJsonDocument readJsonFile(QString f_file_name);
