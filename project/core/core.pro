@@ -38,10 +38,7 @@ HEADERS += \
     src/configuration/config_manager.hpp \
     src/configuration/config_manager_p.hpp \
     src/packets/custom_packet.hpp \
-    src/packets/decryptor_packet.hpp \
-    src/packets/hi_packet.hpp \
-    src/packets/id_packet.hpp \
-    src/packets/le_packet.h \
+    src/packets/join_packet.hpp \
     src/server.hpp
 
 SOURCES += \
@@ -51,10 +48,7 @@ SOURCES += \
     src/area/hub_manager.cpp \
     src/client/client_packet_handler.cpp \
     src/packets/custom_packet.cpp \
-    src/packets/decryptor_packet.cpp \
-    src/packets/hi_packet.cpp \
-    src/packets/id_packet.cpp \
-    src/packets/le_packet.cpp \
+    src/packets/join_packet.cpp \
     src/server.cpp \
     src/config_manager.cpp \
     src/client/client_manager.cpp \

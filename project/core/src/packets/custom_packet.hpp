@@ -4,16 +4,16 @@
 #include "packet.hpp"
 
 namespace AkashiNetwork {
-    class PacketCustom : public AOPacket
+    class PacketCustom : public AOJsonPacket
     {
-      public:
-        PacketCustom(QString header, QStringList contents);
+        PacketCustom(QString type, QJsonObject f_object);
         PacketInfo getPacketInfo() const override;
-        bool validatePacket() const override;
-        void setHeader(QString f_header);
+        QByteArray serialize() const override;
+        void setType(QString type);
 
       private:
-        QString header;
+        QString type;
+        QJsonObject content;
     };
 } // namespace AkashiNetwork
 #endif // CUSTOM_PACKET_HPP

@@ -1,24 +1,32 @@
 #include "custom_packet.hpp"
 
+#include <QJsonDocument>
+
 namespace AkashiNetwork {
-    PacketCustom::PacketCustom(QString header, QStringList content) :
-        AOPacket(content)
+    PacketCustom::PacketCustom(QString f_type, QJsonObject f_content) :
+        AOJsonPacket(),
+        content(f_content)
     {
-        setHeader(header);
+        setType(f_type);
     }
 
     PacketInfo PacketCustom::getPacketInfo() const
     {
-        return PacketInfo{header, -1};
+        return PacketInfo{type, -1};
     }
 
-    bool PacketCustom::validatePacket() const
+    QByteArray PacketCustom::serialize() const
     {
-        return true;
+        QJsonObject f_content;
+        f_content.insert("type", type);
+        f_content.insert("content", content);
+
+        QJsonDocument l_json(f_content);
+        return l_json.toJson();
     }
 
-    void PacketCustom::setHeader(QString f_header)
+    void PacketCustom::setType(QString f_type)
     {
-        header = f_header;
+        type = f_type;
     }
 } // namespace AkashiNetwork

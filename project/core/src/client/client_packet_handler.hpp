@@ -10,7 +10,7 @@ namespace AkashiArea {
 } // namespace AkashiArea
 
 namespace AkashiNetwork {
-    class AOPacket;
+    class AOJsonPacket;
     class PacketHandler;
 } // namespace AkashiNetwork
 
@@ -24,10 +24,7 @@ namespace AkashiCore {
 
       public:
         ClientPacketHandler(Client *client, AkashiNetwork::NetworkSocket *socket, AkashiArea::HubManager *hub_manager, QObject *parent = nullptr);
-
-        void handshake();
-        void handle_HI(AkashiNetwork::AOPacket *f_packet);
-        void handle_ID(AkashiNetwork::AOPacket *f_packet);
+        void handle_join(AkashiNetwork::AOJsonPacket *f_packet);
 
       signals:
 
@@ -39,11 +36,11 @@ namespace AkashiCore {
         AkashiCore::ClientManager *client_manager;
 
         static void registerMappers();
-        inline static std::map<QString, void (ClientPacketHandler::*)(AkashiNetwork::AOPacket *)> m_handler_map;
+        inline static std::map<QString, void (ClientPacketHandler::*)(AkashiNetwork::AOJsonPacket *)> m_handler_map;
 
       private slots:
         void
-        handlePacket(AkashiNetwork::AOPacket *packet);
+        handlePacket(AkashiNetwork::AOJsonPacket *packet);
     };
 } // namespace AkashiCore
 #endif // CLIENT_PACKET_HANDLER_HPP

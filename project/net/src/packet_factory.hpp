@@ -7,11 +7,11 @@ namespace AkashiNetwork {
     {
       public:
         static bool canCreatePacket(QString header);
-        static AOPacket *createPacket(QString header, QStringList content);
+        static AOJsonPacket *createPacket(QString type, QJsonObject content);
 
-        void registerPacket(AOPacket *(*builder)(QStringList content));
+        void registerPacket(AOJsonPacket *(*builder)(QJsonObject content));
 
       private:
-        static std::map<QString, AOPacket *(*)(QStringList)> m_builder_map;
+        static std::map<QString, AOJsonPacket *(*)(QJsonObject)> m_builder_map;
     };
 } // namespace AkashiNetwork

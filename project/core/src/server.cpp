@@ -7,7 +7,7 @@
 #include <server.hpp>
 
 #include "packet_factory.hpp"
-#include "packets/hi_packet.hpp"
+#include "packets/join_packet.hpp"
 
 #include <QDebug>
 #include <QJsonDocument>
@@ -40,7 +40,7 @@ AkashiCore::Server::Server(int argc, char *argv[]) :
     }
 
     AkashiNetwork::PacketFactory factory;
-    factory.registerPacket([](QStringList content) -> AkashiNetwork::AOPacket * { return new AkashiNetwork::PacketHI(content); });
+    factory.registerPacket([](QJsonObject content) -> AkashiNetwork::AOJsonPacket * { return new AkashiNetwork::JoinPacket(content); });
 }
 
 AkashiCore::Server::~Server()

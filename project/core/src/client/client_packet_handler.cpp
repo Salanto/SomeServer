@@ -16,38 +16,22 @@ namespace AkashiCore {
     {
         connect(handler, &AkashiNetwork::PacketHandler::packetReceived, this, &ClientPacketHandler::handlePacket);
 
-        m_handler_map["HI"] = &ClientPacketHandler::handle_HI;
+        m_handler_map["join"] = &ClientPacketHandler::handle_join;
     }
 
     void ClientPacketHandler::registerMappers()
     {
-        m_handler_map["HI"] = &ClientPacketHandler::handle_HI;
-        m_handler_map["ID"] = &ClientPacketHandler::handle_ID;
+        m_handler_map["join"] = &ClientPacketHandler::handle_join;
     }
 
-    void ClientPacketHandler::handshake()
+    void ClientPacketHandler::handle_join(AkashiNetwork::AOJsonPacket *f_packet)
     {
-        AkashiNetwork::PacketCustom packet("decryptor", {"NOENCRYPT"});
-        handler->sendPacket(&packet);
+        qDebug() << "Received join packet";
     }
 
-    void ClientPacketHandler::handle_HI(AkashiNetwork::AOPacket *f_packet)
+    void ClientPacketHandler::handlePacket(AkashiNetwork::AOJsonPacket *packet)
     {
-        qDebug() << "Received HI packet";
-        AkashiNetwork::PacketCustom packet_id("ID", ConfigManager::getInstance().softwareInfo());
-        AkashiNetwork::PacketCustom packet_ass("ASS", {ConfigManager::getInstance().assetURL()});
-        handler->sendPacket(&packet_id);
-        handler->sendPacket(&packet_ass);
-    }
-
-    void ClientPacketHandler::handle_ID(AkashiNetwork::AOPacket *f_packet)
-    {
-        qDebug() << f_packet->getContent();
-    }
-
-    void ClientPacketHandler::handlePacket(AkashiNetwork::AOPacket *packet)
-    {
-        qInfo() << "Client" << client->getId() << "sent packet:" << packet->getContent();
+        qInfo() << "Client" << client->getId() << "sent packet:" << packet->getPacketInfo().header;
         (this->*m_handler_map[packet->getPacketInfo().header])(packet);
         delete packet;
     }

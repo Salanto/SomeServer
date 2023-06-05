@@ -34,8 +34,6 @@ ClientManager::~ClientManager()
 void ClientManager::on_newClientConnected(AkashiNetwork::NetworkSocket *l_socket)
 {
     if (d_ptr.get()->player_ids.isEmpty()) {
-        AkashiNetwork::PacketCustom packet("KB", {"TOOMANYPLAYERS"});
-        l_socket->writeData(packet.toUtf8());
         l_socket->deleteLater();
         return;
     }
@@ -46,7 +44,6 @@ void ClientManager::on_newClientConnected(AkashiNetwork::NetworkSocket *l_socket
 
     auto l_client_handler = new ClientPacketHandler(l_client, l_socket, d_ptr.get()->hub_manager, this);
     d_ptr.get()->client_handlers.insert(player_id, l_client_handler);
-    l_client_handler->handshake();
 
     connect(l_client, &Client::clientDisconnected, this, &ClientManager::on_clientDisconnected);
 }

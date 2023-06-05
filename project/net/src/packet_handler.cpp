@@ -1,6 +1,7 @@
 #include "packet_handler.hpp"
-
 #include "packet_factory.hpp"
+
+#include <QJsonDocument>
 
 namespace AkashiNetwork {
     PacketHandler::PacketHandler(NetworkSocket *socket, QObject *parent) :
@@ -10,31 +11,19 @@ namespace AkashiNetwork {
         connect(socket, &NetworkSocket::dataReceived, this, &PacketHandler::handleSocketData);
     }
 
-    void PacketHandler::sendPacket(AOPacket *packet)
+    void PacketHandler::sendPacket(AOJsonPacket *packet)
     {
-        m_socket->writeData(packet->toUtf8());
+        m_socket->writeData(packet->serialize());
     }
 
     void PacketHandler::handleSocketData()
     {
-        m_buffer += m_socket->pendingData();
-        if (!m_buffer.contains("#%")) {
-            return;
-        }
+        QJsonParseError l_error;
+        QJsonDocument l_data = QJsonDocument::fromJson(m_socket->pendingData().toUtf8(), &l_error);
+        QString type = l_data.object().value("type").toString();
+        QJsonObject content = l_data.object().value("content").toObject();
 
-        QStringList split_buffer = m_buffer.split("%", Qt::KeepEmptyParts);
-        m_buffer = split_buffer.takeLast();
-        for (const QString &i_buffer : split_buffer) {
-            QStringList content = i_buffer.split("#", Qt::KeepEmptyParts);
-            content.takeLast();
-
-            QString header = content.takeFirst();
-            if (!PacketFactory::canCreatePacket(header)) {
-                qWarning() << "Unknown packet received:" << i_buffer;
-                continue;
-            }
-            AOPacket *packet = PacketFactory::createPacket(header, content);
-            emit packetReceived(packet);
-        }
+        AOJsonPacket *packet = PacketFactory::createPacket(type, content);
+        emit packetReceived(packet);
     }
 } // namespace AkashiNetwork

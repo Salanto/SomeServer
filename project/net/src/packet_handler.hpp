@@ -13,14 +13,13 @@ namespace AkashiNetwork {
       public:
         explicit PacketHandler(NetworkSocket *socket, QObject *parent = nullptr);
 
-        void sendPacket(AOPacket *packet);
+        void sendPacket(AOJsonPacket *packet);
 
       signals:
-        void packetReceived(AOPacket *packet);
+        void packetReceived(AOJsonPacket *packet);
 
       private:
         NetworkSocket *m_socket;
-        QString m_buffer;
 
       private slots:
         void handleSocketData();
